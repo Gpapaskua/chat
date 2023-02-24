@@ -17,7 +17,7 @@ const useChatRoomMessages = ({ roomId }: IChatRoomMessagesProps) => {
           return lastPage.conversation.length ? allPages.length : undefined;
         },
         enabled: Boolean(roomId) && isLoggedIn,
-        keepPreviousData: true,
+        keepPreviousData: false,
       }
     );
 

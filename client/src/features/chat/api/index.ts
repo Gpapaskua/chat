@@ -21,8 +21,12 @@ export const subscribeToChatRoom = async (userIds: string[]) => {
   return data;
 };
 
-export const getAllChatRooms = async () => {
-  const { data } = await axiosClient.get<IAllUserChatRooms>("/room");
+export const getAllChatRooms = async (page: number) => {
+  const { data } = await axiosClient.get<IAllUserChatRooms>("/room", {
+    params: {
+      page,
+    },
+  });
   return data;
 };
 

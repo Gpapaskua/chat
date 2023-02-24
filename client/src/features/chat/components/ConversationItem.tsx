@@ -3,33 +3,42 @@ import { IChatRoom } from "@/models/general";
 import classnames from "classnames";
 import { useEffect } from "react";
 import { useChat } from "../hooks";
-import { useCurrentUser, useUser } from "@/features/user/hooks";
+import Avatar from "@/components/Avatar";
+import { getTime } from "@/utils";
 
 interface IConversationItemProps {
   conversation: IChatRoom;
 }
 
+const tempSRC = `https://randomuser.me/api/portraits/men/${Math.floor(
+  Math.random() * 10
+)}.jpg`;
+
 const ConversetionItem = ({ conversation }: IConversationItemProps) => {
   const navigate = useNavigate();
-  const { _id: roomId } = conversation;
+  const { roomId = "" } = useParams();
+  const { _id: convId } = conversation;
   const { subscribeToChatRoom } = useChat();
-  const { user: { _id: currentUserId } = {} } = useCurrentUser();
-  const userId = conversation.userIds.find((id) => id !== currentUserId) || "";
-  const { user: { firstName = "", lastName = "" } = {} } = useUser({
-    userId,
-  });
-  const isActiveConversation = roomId === conversation._id;
+  const {
+    _id: conversationId,
+    lastMessage: {
+      createdAt: lastMessageDate = "",
+      message: { messageText = "" } = {},
+    } = {},
+  } = conversation;
+
+  const isActiveConversation = roomId === conversationId;
 
   useEffect(() => {
-    if (userId && conversation) {
+    if (conversation) {
       subscribeToChatRoom(conversation);
     }
-  }, [conversation, userId, subscribeToChatRoom]);
+  }, [conversation, subscribeToChatRoom]);
   return (
     <a
       onClick={(e) => {
         e.preventDefault();
-        navigate(`/${roomId}`);
+        navigate(`/${convId}`);
       }}
       className="cursor-pointer"
     >
@@ -43,19 +52,15 @@ const ConversetionItem = ({ conversation }: IConversationItemProps) => {
           isActiveConversation && "bg-gray",
         ])}
       >
-        <div className="relative">
-          <img
-            className="w-14 h-14 rounded-full object-cover"
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
-            alt="user"
-          />
+        <Avatar src={tempSRC} alt="user">
           <span className="bottom-1 left-11 absolute  w-3.5 h-3.5 bg-success border-2 border-white dark:border-gray-800 rounded-full" />
-        </div>
+        </Avatar>
+
         <div className="grow self-center">
           <div>
-            <p
-              className={classnames(["leading-6", "font-light", "text-dark"])}
-            >{`${firstName} ${lastName}`}</p>
+            <p className={classnames(["leading-6", "font-light", "text-dark"])}>
+              working
+            </p>
             <div
               className={classnames([
                 "flex",
@@ -64,8 +69,10 @@ const ConversetionItem = ({ conversation }: IConversationItemProps) => {
                 "text-dark/60",
               ])}
             >
-              <small>Some message here</small>
-              <small>20:00</small>
+              <span className="min-w-0 max-w-full block whitespace-nowrap text-ellipsis overflow-hidden">
+                {messageText}
+              </span>
+              <small>{getTime(lastMessageDate)}</small>
             </div>
           </div>
         </div>

@@ -3,8 +3,8 @@ export interface ILoginPaylod {
   password: string;
 }
 
-export interface ILogin {
-  token: string;
+export interface IAuthData {
+  accessToken: string;
 }
 
 export interface IUser {
@@ -18,6 +18,7 @@ export interface IChatRoom {
   _id: string;
   userIds: string[];
   chatInitiator: string;
+  lastMessage: IChatMessage;
   createdAt: string;
   updatedAt: string;
 }
@@ -38,4 +39,3 @@ export interface IOption {
   label: string;
   value: string;
 }
-

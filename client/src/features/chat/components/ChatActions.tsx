@@ -8,7 +8,7 @@ const ChatActions = () => {
   return (
     <div className="h-14 flex justify-end items-center gap-6 py-6">
       <Modal title="New conversation" open={isOpen} onClose={onClose}>
-        <NewChatRoom />
+        <NewChatRoom closeModal={onClose} />
       </Modal>
       <Button variant="rounded" size="small" onClick={onOpen}>
         NEW CONVERSATION

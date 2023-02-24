@@ -1,8 +1,9 @@
 import axiosClient from "../../../config/axiosConfig";
 import { IMe, IUsers } from "../../../models/service";
+import { ParsedQs } from "qs";
 
 export const getCurrentUser = async () => {
-  const { data } = await axiosClient.get<IMe>("/me");
+  const { data } = await axiosClient.get<IMe>("/users/profile");
   return data;
 };
 
@@ -11,11 +12,9 @@ export const getUserById = async (id: string) => {
   return data;
 };
 
-export const getAllUsers = async (search: string) => {
+export const getAllUsers = async ({ params }: { params: ParsedQs }) => {
   const { data } = await axiosClient.get<IUsers>("/users", {
-    params: {
-      search,
-    },
+    params,
   });
   return data;
 };

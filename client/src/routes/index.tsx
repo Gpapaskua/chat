@@ -1,31 +1,45 @@
-import { Navigate } from "react-router-dom";
 import Messenger from "@/features/chat/Messenger";
 import Layout from "@/components/Layout";
 import Login from "@/features/auth/Login";
 import ChatContextProvider from "@/features/chat/context/chatContext";
 import ChatRoom from "@/features/chat/ChatRoom";
+import AxiosWrapper from "@/helpers/AxiosWrapper";
+import RequireAuth from "@/features/auth/RequireAuth";
+import PersistAuth from "@/features/auth/PersistAuth";
 
-const routes = (isLoggedIn: boolean) => [
+const routes = () => [
   {
     path: "/auth",
-    element: !isLoggedIn ? <Login /> : <Navigate to="/" />,
+    element: <Login />,
   },
   {
-    element: <Layout />,
+    element: <PersistAuth />,
     children: [
       {
-        path: "/",
-        element: isLoggedIn ? (
-          <ChatContextProvider>
-            <Messenger />
-          </ChatContextProvider>
-        ) : (
-          <Navigate to="/auth" />
+        element: (
+          <AxiosWrapper>
+            <RequireAuth />
+          </AxiosWrapper>
         ),
         children: [
           {
-            path: "/:roomId",
-            element: isLoggedIn ? <ChatRoom /> : <Navigate to="/auth" />,
+            element: <Layout />,
+            children: [
+              {
+                path: "/",
+                element: (
+                  <ChatContextProvider>
+                    <Messenger />
+                  </ChatContextProvider>
+                ),
+                children: [
+                  {
+                    path: "/:roomId",
+                    element: <ChatRoom />,
+                  },
+                ],
+              },
+            ],
           },
         ],
       },

@@ -1,11 +1,11 @@
-import { ILogin, ILoginPaylod } from "@/models/general";
+import { IAuthData, ILoginPaylod } from "@/models/general";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { login } from "../api";
 
 const useLogin = () => {
   const { mutate, isLoading, error } = useMutation<
-    ILogin,
+    IAuthData,
     AxiosError,
     ILoginPaylod
   >({

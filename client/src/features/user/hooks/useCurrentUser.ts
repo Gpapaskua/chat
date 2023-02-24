@@ -10,7 +10,7 @@ const useCurrentUser = () => {
     () => getCurrentUser(),
     {
       enabled: isLoggedIn,
-      staleTime: 5000,
+      refetchOnMount: false,
     }
   );
 

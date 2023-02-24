@@ -2,14 +2,23 @@ import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getAllUsers } from "../api";
 import useDebounce from "@/hooks/useDebounce";
+import useQueryString from "@/hooks/useQueryString";
 
-const useUsers = () => {
+interface IUseUsersProps {
+  id?: string[];
+}
+
+const useUsers = ({ id }: IUseUsersProps) => {
   const [search, setSearch] = useState("");
 
   const debouncedSearch = useDebounce(search);
 
-  const { data, isLoading } = useQuery(["users", debouncedSearch], () =>
-    getAllUsers(debouncedSearch)
+  const { data, isLoading } = useQuery(["users", debouncedSearch, id], () =>
+    getAllUsers({
+      params: {
+        id,
+      },
+    })
   );
 
   const userOptions = useMemo(

@@ -9,9 +9,11 @@ export interface IUsers {
 }
 
 export interface IInitiateChatRoom {
-  chatRoomId: string;
-  isNew: boolean;
-  message: string;
+  chatRoom: {
+    chatRoomId: string;
+    isNew: boolean;
+    message: string;
+  };
 }
 
 export interface IAllUserChatRooms {
@@ -38,4 +40,9 @@ export interface IPost extends IChatMessage {
 
 export interface ISendMessageResponse {
   post: IPost;
+}
+
+export interface IUsersSearch {
+  search?: string | string[];
+  id?: string | string[];
 }

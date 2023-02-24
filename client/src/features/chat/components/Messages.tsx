@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Message from "./Message";

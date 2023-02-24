@@ -2,7 +2,6 @@ import { useCurrentUser } from "@/features/user/hooks";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import {
   createContext,
-  useContext,
   useEffect,
   ReactNode,
   useCallback,

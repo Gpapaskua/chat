@@ -19,7 +19,7 @@ interface IAuthContextProvider {
 export const AuthContext = createContext<IAuthContext | null>(null);
 
 const AuthContextProvider = ({ children }: IAuthContextProvider) => {
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [token, setToken] = useState("");
   return (
     <AuthContext.Provider
       value={{

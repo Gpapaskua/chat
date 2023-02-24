@@ -20,12 +20,12 @@ export default function Login() {
         password: passwordRef.current.value,
       },
       {
-        onSuccess: ({ token }) => {
-          localStorage.setItem("token", token);
-          setToken(token);
+        onSuccess: ({ accessToken }) => {
+          setToken(accessToken);
         },
         onError: (err) => {
-          if (err.response?.status === 400) {
+          console.log(err);
+          if (err.response?.status === 401) {
             setErr("username or password is incorrect.");
             return;
           }

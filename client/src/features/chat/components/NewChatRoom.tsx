@@ -7,7 +7,11 @@ import { useUsers } from "@/features/user/hooks";
 import { initateChatRoom } from "../api";
 import Button from "@/components/Button";
 
-const NewChatRoom = () => {
+interface INewChatRoomProps {
+  closeModal: () => void;
+}
+
+const NewChatRoom = ({ closeModal }: INewChatRoomProps) => {
   const [selectedUsers, setSelectedUsers] = useState<readonly IOption[]>([]);
   const { userOptions = [], isLoading, setSearch, search } = useUsers();
   const navigate = useNavigate();
@@ -23,8 +27,10 @@ const NewChatRoom = () => {
     }
     const ids = selectedUsers.map((s) => s.value);
     initiateChatRoom(ids, {
-      onSuccess: ({ chatRoomId }) => {
+      onSuccess: ({ chatRoom }) => {
+        const { chatRoomId } = chatRoom;
         navigate(`/${chatRoomId}`);
+        closeModal();
       },
     });
   };
@@ -44,7 +50,7 @@ const NewChatRoom = () => {
           <div className="flex gap-4 items-center">
             <img
               className="w-8 h-8 rounded-full object-cover"
-              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+              src="https://this-person-does-not-exist.com/en"
               alt="country-image"
             />
             <span>{user.label}</span>

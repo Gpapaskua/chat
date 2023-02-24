@@ -36,7 +36,6 @@ const ChatInput = () => {
           }
           const { chatRoomInfo, ...chat } = post;
           sendMessageToChatRoom(post);
-          console.log(post);
           client.setQueryData(
             ["room-messages", chat.chatRoomId],
             (oldData?: InfiniteData<IChatRoomMessages>) =>
